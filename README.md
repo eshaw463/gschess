@@ -1,5 +1,5 @@
-Game by: Emerson Shaw,
-Initial Codebase: https://github.com/Godot-With-Me/Chess
+Game by: Emerson Shaw
+*Initial Codebase: https://github.com/Godot-With-Me/Chess
 
 *Win by taking all of your opponent's pieces!*
 
