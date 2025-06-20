@@ -6,4 +6,8 @@ Initial Codebase: https://github.com/Godot-With-Me/Chess
 
 Features:
 - Chess movement with strategy game elements
-- Beautiful UI designed by designer_pending
+- Beautiful UI designed by myself at the moment
+
+Version: 1.1
+- Balance changes
+- Better UI
