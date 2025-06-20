@@ -85,14 +85,14 @@ var unique_board_moves : Array = []
 var amount_of_same : Array = []
 
 func _ready():
-	board.append([0, 0, 3, 5, 6, 3, 0, 0])
+	board.append([0, 0, 6, 6, 6, 6, 0, 0])
 	board.append([0, 0, 1, 1, 1, 1, 0, 0])
 	board.append([0, 0, 0, 0, 0, 0, 0, 0])
 	board.append([0, 0, 0, 0, 0, 0, 0, 0])
 	board.append([0, 0, 0, 0, 0, 0, 0, 0])
 	board.append([0, 0, 0, 0, 0, 0, 0, 0])
 	board.append([0, 0, -1, -1, -1, -1, 0, 0])
-	board.append([0, 0, -3, -5, -6, -3, 0, 0])
+	board.append([0, 0, -6, -6, -6, -6, 0, 0])
 	
 	display_board()
 	
@@ -152,6 +152,9 @@ func display_board():
 		w_manpower += 1
 		var text = $"../CanvasLayer/UI/DeployNumber"
 		text.text = "power: " + str(w_manpower)
+		var enemyNum = $"../CanvasLayer/UI/enemyNum"
+		enemyNum.text = "enemy power: " + str(b_manpower+1)
+		
 		var nameLabel = $"../CanvasLayer/UI/PlayerName"
 		nameLabel.text = w_name
 		
@@ -160,6 +163,9 @@ func display_board():
 		b_manpower += 1
 		var text = $"../CanvasLayer/UI/DeployNumber"
 		text.text = "power: " + str(b_manpower)
+		var enemyNum = $"../CanvasLayer/UI/enemyNum"
+		enemyNum.text = "enemy power: " + str(w_manpower+1)
+
 		var nameLabel = $"../CanvasLayer/UI/PlayerName"
 		nameLabel.text = b_name
 
@@ -479,51 +485,63 @@ func _on_deploy_l_pressed() -> void:
 		if (opt.get_selected_id() == 0 && w_manpower > 0):
 			board[0][1] = 1 #pawn
 			w_manpower -= 2
+			white = false
 			display_board() # has to be after every option to avoid manpower gain on invalid button press
 		elif (opt.get_selected_id() == 1 && w_manpower > 1):
 			board[0][1] = 2 # knight
 			w_manpower -= 3
+			white = false
 			display_board()
 		elif (opt.get_selected_id() == 2 && w_manpower > 1):
 			board[0][1] = 6 # king
 			w_manpower -= 3
+			white = false
 			display_board()
 		elif (opt.get_selected_id() == 3 && w_manpower > 2):
 			board[0][1] = 4 # rook
 			w_manpower -= 4
+			white = false
 			display_board()
 		elif (opt.get_selected_id() == 4 && w_manpower > 2):
 			board[0][1] = 3 # bishop
 			w_manpower -= 4
+			white = false
 			display_board()
 		elif (opt.get_selected_id() == 5 && w_manpower > 4):
 			board[0][1] = 5 # queen
 			w_manpower -= 6
+			white = false
 			display_board()
 	elif !white && board[7][1] == 0: 
 		if (opt.get_selected_id() == 0 && b_manpower > 0):
 			board[7][1] = -1 #pawn
 			b_manpower -= 2
+			white = true
 			display_board() # has to be after every option to avoid manpower gain on invalid button press
 		elif (opt.get_selected_id() == 1 && b_manpower > 1):
 			board[7][1] = -2 # knight
 			b_manpower -= 3
+			white = true
 			display_board()
 		elif (opt.get_selected_id() == 2 && b_manpower > 1):
 			board[7][1] = -6 # king
 			b_manpower -= 3
+			white = true
 			display_board()
 		elif (opt.get_selected_id() == 3 && b_manpower > 2):
 			board[7][1] = -4 # rook
 			b_manpower -= 4
+			white = true
 			display_board()
 		elif (opt.get_selected_id() == 4 && b_manpower > 2):
 			board[7][1] = -3 # bishop
 			b_manpower -= 4
+			white = true
 			display_board()
 		elif (opt.get_selected_id() == 5 && b_manpower > 4):
 			board[7][1] = -5 # queen
 			b_manpower -= 6
+			white = true
 			display_board()
 	
 
@@ -534,49 +552,61 @@ func _on_deploy_r_pressed() -> void:
 		if (opt.get_selected_id() == 0 && w_manpower > 0):
 			board[0][6] = 1 #pawn
 			w_manpower -= 2
+			white = false
 			display_board() # has to be after every option to avoid manpower gain on invalid button press
 		elif (opt.get_selected_id() == 1 && w_manpower > 1):
 			board[0][6] = 2 # knight
 			w_manpower -= 3
+			white = false
 			display_board()
 		elif (opt.get_selected_id() == 2 && w_manpower > 1):
 			board[0][6] = 6 # king
 			w_manpower -= 3
+			white = false
 			display_board()
 		elif (opt.get_selected_id() == 3 && w_manpower > 2):
 			board[0][6] = 4 # rook
 			w_manpower -= 4
+			white = false
 			display_board()
 		elif (opt.get_selected_id() == 4 && w_manpower > 2):
 			board[0][6] = 3 # bishop
 			w_manpower -= 4
+			white = false
 			display_board()
 		elif (opt.get_selected_id() == 5 && w_manpower > 4):
 			board[0][6] = 5 # queen
 			w_manpower -= 6
+			white = false
 			display_board()
 	elif !white && board[7][6] == 0: 
 		if (opt.get_selected_id() == 0):
 			board[7][6] = -1 #pawn
 			b_manpower -= 2
+			white = true
 			display_board() # has to be after every option to avoid manpower gain on invalid button press
 		elif (opt.get_selected_id() == 1 && b_manpower > 1):
 			board[7][6] = -2 # knight
 			b_manpower -= 3
+			white = true
 			display_board()
 		elif (opt.get_selected_id() == 2 && b_manpower > 1):
 			board[7][6] = -6 # king
 			b_manpower -= 3
+			white = true
 			display_board()
 		elif (opt.get_selected_id() == 3 && b_manpower > 2):
 			board[7][6] = -4 # rook
 			b_manpower -= 4
+			white = true
 			display_board()
 		elif (opt.get_selected_id() == 4 && b_manpower > 2):
 			board[7][6] = -3 # bishop
 			b_manpower -= 4
+			white = true
 			display_board()
 		elif (opt.get_selected_id() == 5 && b_manpower > 4):
 			board[7][6] = -5 # queen
 			b_manpower -= 6
+			white = true
 			display_board()

@@ -245,12 +245,13 @@ vertical_alignment = 1
 
 [node name="PlayerName" type="Label" parent="CanvasLayer/UI"]
 layout_mode = 0
-offset_left = 201.0
+offset_left = 188.0
 offset_top = 5.0
-offset_right = 367.0
+offset_right = 354.0
 offset_bottom = 44.0
 theme_override_font_sizes/font_size = 28
 text = "PlayerName"
+horizontal_alignment = 1
 
 [node name="DeployNumber" type="Label" parent="CanvasLayer/UI"]
 layout_mode = 0
@@ -299,6 +300,14 @@ theme_override_font_sizes/font_size = 50
 text = "R"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="enemyNum" type="Label" parent="CanvasLayer/UI"]
+layout_mode = 0
+offset_left = 207.0
+offset_top = 114.0
+offset_right = 331.0
+offset_bottom = 137.0
+text = "enemy power: 0"
 
 [node name="Board" parent="." instance=ExtResource("1_63gbl")]
 
