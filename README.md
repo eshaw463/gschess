@@ -8,6 +8,9 @@ Features:
 - Chess movement with strategy game elements
 - Beautiful UI designed by myself at the moment
 
-Version: 1.1
+Version: 1.2
 - Balance changes
 - Better UI
+- CRT Shader
+- Upgrade System
+- Upgrade UI placeholders
