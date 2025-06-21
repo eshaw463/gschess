@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://wumwx2sgq27v"]
+[gd_scene load_steps=40 format=3 uid="uid://wumwx2sgq27v"]
 
 [ext_resource type="Texture2D" uid="uid://ctsgdmugmedg5" path="res://Assets/white_knight.png" id="1_3khqn"]
 [ext_resource type="PackedScene" uid="uid://c5xblqofcwad0" path="res://Scenes/board.tscn" id="1_63gbl"]
@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" uid="uid://bmmt31nb526bf" path="res://Assets/black_bishop.png" id="6_cavfs"]
 [ext_resource type="Texture2D" uid="uid://bhr8c2pb02smt" path="res://Assets/black_rook.png" id="7_wianj"]
 [ext_resource type="Texture2D" uid="uid://bs6nmydq4udho" path="res://Assets/black_queen.png" id="8_df1ci"]
+[ext_resource type="Texture2D" uid="uid://bwfnxrs8d5oat" path="res://Assets/backup.png" id="9_d1ilt"]
+[ext_resource type="Texture2D" uid="uid://cs48ggqviwngn" path="res://Assets/blankUpgrade.png" id="10_6iyac"]
 [ext_resource type="Texture2D" uid="uid://clnu0wcrgyjwg" path="res://Assets/ui.png" id="10_hptm8"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vp5if"]
@@ -309,6 +311,129 @@ offset_right = 331.0
 offset_bottom = 137.0
 text = "enemy power: 0"
 
+[node name="nameInput" type="TextEdit" parent="CanvasLayer/UI"]
+layout_mode = 0
+offset_left = 203.0
+offset_top = 614.0
+offset_right = 324.0
+offset_bottom = 649.0
+
+[node name="Submit" type="Button" parent="CanvasLayer/UI"]
+layout_mode = 0
+offset_left = 139.0
+offset_top = 614.0
+offset_right = 201.0
+offset_bottom = 650.0
+theme_override_font_sizes/font_size = 13
+text = "rename"
+
+[node name="Label2" type="Label" parent="CanvasLayer/UI"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 137.0
+offset_right = 503.0
+offset_bottom = 168.0
+theme_override_font_sizes/font_size = 22
+text = "..................................................................................."
+
+[node name="Upgrades" type="OptionButton" parent="CanvasLayer/UI"]
+layout_mode = 0
+offset_left = 226.0
+offset_top = 182.0
+offset_right = 356.0
+offset_bottom = 216.0
+item_count = 9
+popup/item_0/text = "10 - Revolver"
+popup/item_0/id = 0
+popup/item_1/text = "10 - Guillotine"
+popup/item_1/id = 1
+popup/item_2/text = "10 - Crown"
+popup/item_2/id = 2
+popup/item_3/text = "8 - Sword"
+popup/item_3/id = 3
+popup/item_4/text = "8 - Tower"
+popup/item_4/id = 4
+popup/item_5/text = "8 - Shield"
+popup/item_5/id = 5
+popup/item_6/text = "12 - Factory"
+popup/item_6/id = 6
+popup/item_7/text = "12 - Colony"
+popup/item_7/id = 7
+popup/item_8/text = "16 - Artillery"
+popup/item_8/id = 8
+
+[node name="buy" type="Button" parent="CanvasLayer/UI"]
+layout_mode = 0
+offset_left = 182.0
+offset_top = 182.0
+offset_right = 225.0
+offset_bottom = 216.0
+theme_override_font_sizes/font_size = 18
+text = "ᐅ"
+
+[node name="turnLab" type="Label" parent="CanvasLayer/UI"]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 184.0
+offset_right = 110.0
+offset_bottom = 212.0
+theme_override_font_sizes/font_size = 20
+text = "Turn: 0"
+
+[node name="info" type="Button" parent="CanvasLayer/UI"]
+layout_mode = 0
+offset_left = 448.0
+offset_top = 181.0
+offset_right = 487.0
+offset_bottom = 216.0
+theme_override_font_sizes/font_size = 2
+
+[node name="infotxt" type="Label" parent="CanvasLayer/UI"]
+layout_mode = 0
+offset_left = 453.0
+offset_top = 172.0
+offset_right = 487.0
+offset_bottom = 227.0
+theme_override_font_sizes/font_size = 35
+text = "ⓘ"
+
+[node name="INFOTAB" type="RichTextLabel" parent="CanvasLayer/UI"]
+visible = false
+z_index = 10
+layout_mode = 0
+offset_left = 60.0
+offset_top = 245.0
+offset_right = 467.0
+offset_bottom = 530.0
+text = "revolver - every 6 turns the piece you move will kill the 3 in front of it
+guillotine - kills all enemy queens
+crown - turns all of your pawns into kings
+sword - every 3 turns the piece you move will kill the one in front of it
+tower - turns all of your kings into rooks
+shield - fills your 2nd row with pawns
+factory - gain points more quickly (1 extra / 3 turns)
+colony - gain 24 points                                         
+artillery - every 12 turns, destroy 5 pieces in a line in front of the piece you move"
+
+[node name="infobacker" type="Sprite2D" parent="CanvasLayer/UI"]
+visible = false
+z_index = 9
+position = Vector2(437.5, 358.5)
+scale = Vector2(6.92361, 3.89583)
+texture = ExtResource("9_d1ilt")
+
+[node name="UP3" type="Sprite2D" parent="CanvasLayer/UI"]
+position = Vector2(261, 478)
+texture = ExtResource("10_6iyac")
+
+[node name="UP2" type="Sprite2D" parent="CanvasLayer/UI"]
+position = Vector2(359, 343)
+texture = ExtResource("10_6iyac")
+
+[node name="UP1" type="Sprite2D" parent="CanvasLayer/UI"]
+position = Vector2(165, 344)
+texture = ExtResource("10_6iyac")
+
 [node name="Board" parent="." instance=ExtResource("1_63gbl")]
 
 [node name="UI" type="Sprite2D" parent="."]
@@ -318,3 +443,6 @@ texture = ExtResource("10_hptm8")
 
 [connection signal="pressed" from="CanvasLayer/UI/DeployL" to="Board" method="_on_deploy_l_pressed"]
 [connection signal="pressed" from="CanvasLayer/UI/DeployR" to="Board" method="_on_deploy_r_pressed"]
+[connection signal="pressed" from="CanvasLayer/UI/Submit" to="Board" method="_on_submit_pressed"]
+[connection signal="pressed" from="CanvasLayer/UI/buy" to="Board" method="_on_buy_pressed"]
+[connection signal="pressed" from="CanvasLayer/UI/info" to="Board" method="_on_info_pressed"]

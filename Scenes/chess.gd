@@ -38,6 +38,11 @@ const PIECE_MOVE = preload("res://Assets/Piece_move.png")
 @onready var white_pieces = $"../CanvasLayer/white_pieces"
 @onready var black_pieces = $"../CanvasLayer/black_pieces"
 @onready var opt = $"../CanvasLayer/UI/OptionButton"
+@onready var turn_lab: Label = $"../CanvasLayer/UI/turnLab"
+
+@onready var infotab: RichTextLabel = $"../CanvasLayer/UI/INFOTAB"
+@onready var infobacker: Sprite2D = $"../CanvasLayer/UI/infobacker"
+
 
 #extra var
 var currentTurn : int = 0
@@ -45,6 +50,13 @@ var b_manpower : int = 0
 var w_manpower : int = 0
 var w_name = "RandomCrow"
 var b_name = "Tuna"
+
+var w_up : int = 0
+var b_up : int = 0
+var w_list = []
+var b_list = []
+
+var infoOn = false
 
 
 #Variables
@@ -85,6 +97,9 @@ var unique_board_moves : Array = []
 var amount_of_same : Array = []
 
 func _ready():
+	infotab.set_visible(false)
+	infobacker.set_visible(false)
+	
 	board.append([0, 0, 6, 6, 6, 6, 0, 0])
 	board.append([0, 0, 1, 1, 1, 1, 0, 0])
 	board.append([0, 0, 0, 0, 0, 0, 0, 0])
@@ -146,10 +161,36 @@ func display_board():
 				2: holder.texture = WHITE_KNIGHT
 				1: holder.texture = WHITE_PAWN
 				
+				
+				
+				
+#WIN?
+	var w_loss = true
+	var b_loss = true
+	for n in range (8):
+		for m in range (8):
+			if board[n][m] > 0: 
+				w_loss = false
+			if board[n][m] < 0: 
+				b_loss = false
+	if (w_loss):   #DISPLAY WIN SCREENS HERE
+		pass
+	if (b_loss):
+		pass
+
+
 #CHANGE TURN
 	if white: 
+		var infotxt: Label = $"../CanvasLayer/UI/infotxt"
+		infotxt.text = "ⓘ"
+		infotab.set_visible(false)
+		infobacker.set_visible(false)
+		infoOn = false
 		turn.texture = TURN_WHITE
+		currentTurn+=1
+		w_display_upgrades()
 		w_manpower += 1
+		if (w_list.has(6) && currentTurn%3==0): w_manpower += 1
 		var text = $"../CanvasLayer/UI/DeployNumber"
 		text.text = "power: " + str(w_manpower)
 		var enemyNum = $"../CanvasLayer/UI/enemyNum"
@@ -157,10 +198,18 @@ func display_board():
 		
 		var nameLabel = $"../CanvasLayer/UI/PlayerName"
 		nameLabel.text = w_name
+		turn_lab.text = "Turn: " + str(currentTurn)
 		
 	else: 
+		b_display_upgrades()
+		var infotxt: Label = $"../CanvasLayer/UI/infotxt"
+		infotxt.text = "ⓘ"
+		infotab.set_visible(false)
+		infobacker.set_visible(false)
+		infoOn = false
 		turn.texture = TURN_BLACK
 		b_manpower += 1
+		if (b_list.has(6) && currentTurn%3==0): b_manpower += 1
 		var text = $"../CanvasLayer/UI/DeployNumber"
 		text.text = "power: " + str(b_manpower)
 		var enemyNum = $"../CanvasLayer/UI/enemyNum"
@@ -168,6 +217,7 @@ func display_board():
 
 		var nameLabel = $"../CanvasLayer/UI/PlayerName"
 		nameLabel.text = b_name
+		turn_lab.text = "Turn: " + str(currentTurn)
 
 func show_options():
 	moves = get_moves(selected_piece)
@@ -246,6 +296,55 @@ func set_move(var2, var1):
 							board[7][5] = -4
 			if !just_now: en_passant = null
 			board[var2][var1] = board[selected_piece.x][selected_piece.y]
+			
+			# extra weapon stuffs
+			# revolver
+			if white && w_list.has(0) && (currentTurn%6 == 0):
+				if (var2 < 7):
+					if (board[var2+1][var1] < 0): board[var2+1][var1] = 0
+					if (board[var2+1][var1+1] < 0): board[var2+1][var1+1] = 0
+					if (board[var2+1][var1-1] < 0): board[var2+1][var1-1] = 0
+					
+			elif !white && b_list.has(0) && (currentTurn%6 == 0):
+				if (var2 > 0):
+					if (board[var2-1][var1] > 0): board[var2-1][var1] = 0
+					if (board[var2-1][var1+1] > 0): board[var2-1][var1+1] = 0
+					if (board[var2-1][var1-1] > 0): board[var2-1][var1-1] = 0
+			# sword
+			if white && w_list.has(3) && (currentTurn%3 == 1): # ==1 to offset with revolver
+				if (var2 < 7):
+					if (board[var2+1][var1] < 0): board[var2+1][var1] = 0
+					
+			elif !white && b_list.has(3) && (currentTurn%3 == 1):
+				if (var2 > 0):
+					if (board[var2-1][var1] > 0): board[var2-1][var1] = 0
+			# artillery
+			if white && w_list.has(8) && (currentTurn%12 == 2): # ==2 to offset with revolver
+				if (var2+1 < 8):
+					if (board[var2+1][var1] < 0): board[var2+1][var1] = 0
+				if (var2+2 < 8):
+					if (board[var2+2][var1] < 0): board[var2+2][var1] = 0
+				if (var2+3 < 8):
+					if (board[var2+3][var1] < 0): board[var2+3][var1] = 0
+				if (var2+4 < 8):
+					if (board[var2+4][var1] < 0): board[var2+4][var1] = 0
+				if (var2+5 < 8):
+					if (board[var2+5][var1] < 0): board[var2+5][var1] = 0
+					
+			elif !white && b_list.has(8) && (currentTurn%12 == 2):
+				if (var2-1 > -1):
+					if (board[var2-1][var1] > 0): board[var2-1][var1] = 0
+				if (var2-2 > -1):
+					if (board[var2-2][var1] > 0): board[var2-2][var1] = 0
+				if (var2-3 > -1):
+					if (board[var2-3][var1] > 0): board[var2-3][var1] = 0
+				if (var2-4 > -1):
+					if (board[var2-4][var1] > 0): board[var2-4][var1] = 0
+				if (var2-5 > -1):
+					if (board[var2-5][var1] > 0): board[var2-5][var1] = 0
+			
+			# end
+			
 			board[selected_piece.x][selected_piece.y] = 0
 			white = !white
 			display_board()
@@ -610,3 +709,365 @@ func _on_deploy_r_pressed() -> void:
 			b_manpower -= 6
 			white = true
 			display_board()
+
+
+func _on_submit_pressed() -> void:
+	var nameIn = $"../CanvasLayer/UI/nameInput"
+	var nameLabel = $"../CanvasLayer/UI/PlayerName"
+	
+	if white: 
+		w_name = nameIn.text
+		nameLabel.text = w_name
+	else: 
+		b_name = nameIn.text
+		nameLabel.text = b_name
+	
+	# revolver - every 6 turns the piece you move will kill the 3 in front of it   DONE
+	# guillotine - kills all enemy queens                                          DONE
+	# crown - turns all of your pawns into kings                                   DONE
+	# sword - every 3 turns the piece you move will kill the one in front of it    DONE
+	# tower - turns all kings into rooks                                           DONE
+	# shield - fills row 2 with pawns                                              DONE
+	# factory - gain points more quickly                                           DONE
+	# colony - gain 24 points                                                      DONE
+	# artillery - every 12 turns destroy 5 pieces in a line in front of you        DONE
+
+# TODO: ability graphics, info page
+
+func _on_buy_pressed() -> void: 
+	# subtracting manpower & redisplay not done
+	# plus pixel art & implementation for each ability
+	var upShop = $"../CanvasLayer/UI/Upgrades"
+	var ID = upShop.get_selected_id()
+	if white && w_up < 3:
+		if ID == 0 && w_manpower > 9:
+			w_list.append(ID) 
+			w_up += 1
+			w_manpower -= 11
+			white = false
+			display_board()
+		if ID == 1 && w_manpower > 9:
+			w_list.append(ID) 
+			w_up += 1
+			w_manpower -= 11
+			
+			# kill all enemy queens
+			for n in range (8):
+				for m in range (8):
+					if board[n][m] == -5: 
+						board[n][m] = 0
+			
+			white = false
+			display_board()
+		if ID == 2 && w_manpower > 9:
+			w_list.append(ID)
+			w_up += 1 
+			w_manpower -= 11
+			
+			# pawns to kings
+			for n in range (8):
+				for m in range (8):
+					if board[n][m] == 1: 
+						board[n][m] = 6
+			
+			white = false
+			display_board()
+		if ID == 3 && w_manpower > 7:
+			w_list.append(ID)
+			w_up += 1 
+			w_manpower -= 9
+			white = false
+			display_board()
+		if ID == 4 && w_manpower > 7:
+			w_list.append(ID)
+			w_up += 1 
+			w_manpower -= 9
+			
+			# kings to rooks
+			for n in range (8):
+				for m in range (8):
+					if board[n][m] == 6: 
+						board[n][m] = 4
+			
+			white = false
+			display_board()
+		if ID == 5 && w_manpower > 7:
+			w_list.append(ID)
+			w_up += 1 
+			w_manpower -= 9
+			
+			if (board[1][0] == 0): board[1][0] = 1
+			if (board[1][1] == 0): board[1][1] = 1
+			if (board[1][2] == 0): board[1][2] = 1
+			if (board[1][3] == 0): board[1][3] = 1
+			if (board[1][4] == 0): board[1][4] = 1
+			if (board[1][5] == 0): board[1][5] = 1
+			if (board[1][6] == 0): board[1][6] = 1
+			if (board[1][7] == 0): board[1][7] = 1
+			
+			white = false
+			display_board()
+		if ID == 6 && w_manpower > 11:
+			w_list.append(ID)
+			w_up += 1 
+			w_manpower -= 13
+			white = false
+			display_board()
+		if ID == 7 && w_manpower > 11:
+			w_list.append(ID)
+			w_up += 1 
+			w_manpower += 12
+			white = false
+			display_board()
+		if ID == 8 && w_manpower > 15:
+			w_list.append(ID)
+			w_up += 1 
+			w_manpower -= 17
+			white = false
+			display_board()
+	elif !white && b_up < 3:
+		if ID == 0 && b_manpower > 9:
+			b_list.append(ID)
+			b_up += 1 
+			b_manpower -= 11
+			white = true
+			display_board()
+		if ID == 1 && b_manpower > 9:
+			b_list.append(ID)
+			b_up += 1  
+			b_manpower -= 11
+			
+			# kill all enemy queens
+			for n in range (8):
+				for m in range (8):
+					if board[n][m] == 5: 
+						board[n][m] = 0
+			
+			white = true
+			display_board()
+		if ID == 2 && b_manpower > 9:
+			b_list.append(ID)
+			b_up += 1  
+			b_manpower -= 11
+			
+			# pawns to kings
+			for n in range (8):
+				for m in range (8):
+					if board[n][m] == -1: 
+						board[n][m] = -6
+			
+			white = true
+			display_board()
+		if ID == 3 && b_manpower > 7:
+			b_list.append(ID)
+			b_up += 1  
+			b_manpower -= 9
+			white = true
+			display_board()
+		if ID == 4 && b_manpower > 7:
+			b_list.append(ID)
+			b_up += 1  
+			b_manpower -= 9
+			
+			# kings to rooks
+			for n in range (8):
+				for m in range (8):
+					if board[n][m] == -6: 
+						board[n][m] = -4
+			
+			white = true
+			display_board()
+		if ID == 5 && b_manpower > 7:
+			b_list.append(ID)
+			b_up += 1  
+			b_manpower -= 9
+			
+			if (board[6][0] == 0): board[6][0] = -1
+			if (board[6][1] == 0): board[6][1] = -1
+			if (board[6][2] == 0): board[6][2] = -1
+			if (board[6][3] == 0): board[6][3] = -1
+			if (board[6][4] == 0): board[6][4] = -1
+			if (board[6][5] == 0): board[6][5] = -1
+			if (board[6][6] == 0): board[6][6] = -1
+			if (board[6][7] == 0): board[6][7] = -1
+			
+			white = true
+			display_board()
+		if ID == 6 && b_manpower > 11:
+			b_list.append(ID)
+			b_up += 1  
+			b_manpower -= 13
+			white = true
+			display_board()
+		if ID == 7 && b_manpower > 11:
+			b_list.append(ID)
+			b_up += 1  
+			b_manpower += 12
+			white = true
+			display_board()
+		if ID == 8 && b_manpower > 15:
+			b_list.append(ID)
+			b_up += 1  
+			b_manpower -= 17
+			white = true
+			display_board()
+
+
+func _on_info_pressed() -> void:
+	if (!infoOn):
+		var infotxt: Label = $"../CanvasLayer/UI/infotxt"
+		infotxt.text = "X"
+		infotab.set_visible(true)
+		infobacker.set_visible(true)
+		infoOn = true
+	else:
+		var infotxt: Label = $"../CanvasLayer/UI/infotxt"
+		infotxt.text = "ⓘ"
+		infotab.set_visible(false)
+		infobacker.set_visible(false)
+		infoOn = false
+
+func w_display_upgrades() -> void:
+	
+	var UP1 = $"../CanvasLayer/UI/UP1"
+	var UP2 = $"../CanvasLayer/UI/UP2"
+	var UP3 = $"../CanvasLayer/UI/UP3"
+	
+	for x in range (3):
+		var curUP
+		if (x == 0): curUP = UP1
+		elif (x == 1): curUP = UP2
+		elif (x == 2): curUP = UP3
+		if len(w_list) >= x+1:
+			if w_list[x] == 0: #REV
+				if currentTurn%6 == 0:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%6 == 1:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%6 == 2:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%6 == 3:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%6 == 4:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%6 == 5:
+					curUP.texture=load("res://Assets/Chess_board.png")
+			elif w_list[x] == 1:
+				curUP.texture=load("res://Assets/Chess_board.png")
+			elif w_list[x] == 2:
+				curUP.texture=load("res://Assets/Chess_board.png")
+			elif w_list[x] == 3: #SWORD
+				if currentTurn%3 == 0:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%3 == 1:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%3 == 2:
+					curUP.texture=load("res://Assets/Chess_board.png")
+			elif w_list[x] == 4:
+				curUP.texture=load("res://Assets/Chess_board.png")
+			elif w_list[x] == 5:
+				curUP.texture=load("res://Assets/Chess_board.png")
+			elif w_list[x] == 6:
+				curUP.texture=load("res://Assets/Chess_board.png")
+			elif w_list[x] == 7:
+				curUP.texture=load("res://Assets/Chess_board.png")
+			elif w_list[x] == 8: #ARTY
+				if currentTurn%12 == 0:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 1:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 2:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 3:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 4:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 5:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 6:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 7:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 8:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 9:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 10:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 11:
+					curUP.texture=load("res://Assets/Chess_board.png")
+			else:
+				pass #display nothing/// will need to switch to a blank texture!!!
+	
+func b_display_upgrades() -> void:
+	
+	var UP1 = $"../CanvasLayer/UI/UP1"
+	var UP2 = $"../CanvasLayer/UI/UP2"
+	var UP3 = $"../CanvasLayer/UI/UP3"
+	
+	for x in range (3):
+		var curUP
+		if (x == 0): curUP = UP1
+		elif (x == 1): curUP = UP2
+		elif (x == 2): curUP = UP3
+		
+		if len(b_list) >= x+1:
+			if b_list[x] == 0: # REVOLVER
+				if currentTurn%6 == 0:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%6 == 1:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%6 == 2:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%6 == 3:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%6 == 4:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%6 == 5:
+					curUP.texture=load("res://Assets/Chess_board.png")
+			elif b_list[x] == 1:
+				curUP.texture=load("res://Assets/Chess_board.png")
+			elif b_list[x] == 2:
+				curUP.texture=load("res://Assets/Chess_board.png")
+			elif b_list[x] == 3: #SWORD
+				if currentTurn%3 == 0:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%3 == 1:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%3 == 2:
+					curUP.texture=load("res://Assets/Chess_board.png")
+			elif b_list[x] == 4:
+				curUP.texture=load("res://Assets/Chess_board.png")
+			elif b_list[x] == 5:
+				curUP.texture=load("res://Assets/Chess_board.png")
+			elif b_list[x] == 6:
+				curUP.texture=load("res://Assets/Chess_board.png")
+			elif b_list[x] == 7:
+				curUP.texture=load("res://Assets/Chess_board.png")
+			elif b_list[x] == 8: #ARTY
+				if currentTurn%12 == 0:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 1:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 2:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 3:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 4:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 5:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 6:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 7:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 8:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 9:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 10:
+					curUP.texture=load("res://Assets/Chess_board.png")
+				elif currentTurn%12 == 11:
+					curUP.texture=load("res://Assets/Chess_board.png")
+			else:
+				pass #display nothing
