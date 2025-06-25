@@ -48,8 +48,8 @@ const PIECE_MOVE = preload("res://Assets/Piece_move.png")
 var currentTurn : int = 0
 var b_manpower : int = 0
 var w_manpower : int = 0
-var w_name = "RandomCrow"
-var b_name = "Tuna"
+var w_name = "Player1"
+var b_name = "Player2"
 
 var w_up : int = 0
 var b_up : int = 0
@@ -189,7 +189,7 @@ func display_board():
 		turn.texture = TURN_WHITE
 		currentTurn+=1
 		w_display_upgrades()
-		w_manpower += 1
+		w_manpower += 1 #set back to 1
 		if (w_list.has(6) && currentTurn%3==0): w_manpower += 1
 		var text = $"../CanvasLayer/UI/DeployNumber"
 		text.text = "power: " + str(w_manpower)
@@ -732,7 +732,7 @@ func _on_submit_pressed() -> void:
 	# colony - gain 24 points                                                      DONE
 	# artillery - every 12 turns destroy 5 pieces in a line in front of you        DONE
 
-# TODO: ability graphics, info page
+
 
 func _on_buy_pressed() -> void: 
 	# subtracting manpower & redisplay not done
@@ -941,63 +941,63 @@ func w_display_upgrades() -> void:
 		if len(w_list) >= x+1:
 			if w_list[x] == 0: #REV
 				if currentTurn%6 == 0:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/rev6.png")
 				elif currentTurn%6 == 1:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/rev1.png")
 				elif currentTurn%6 == 2:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/rev2.png")
 				elif currentTurn%6 == 3:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/rev3.png")
 				elif currentTurn%6 == 4:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/rev4.png")
 				elif currentTurn%6 == 5:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/rev5.png")
 			elif w_list[x] == 1:
-				curUP.texture=load("res://Assets/Chess_board.png")
+				curUP.texture=load("res://Assets/guillotine.png")
 			elif w_list[x] == 2:
-				curUP.texture=load("res://Assets/Chess_board.png")
+				curUP.texture=load("res://Assets/crown.png")
 			elif w_list[x] == 3: #SWORD
 				if currentTurn%3 == 0:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/sword2.png")
 				elif currentTurn%3 == 1:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/sword3.png")
 				elif currentTurn%3 == 2:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/sword1.png")
 			elif w_list[x] == 4:
-				curUP.texture=load("res://Assets/Chess_board.png")
+				curUP.texture=load("res://Assets/tower.png")
 			elif w_list[x] == 5:
-				curUP.texture=load("res://Assets/Chess_board.png")
+				curUP.texture=load("res://Assets/shield.png")
 			elif w_list[x] == 6:
-				curUP.texture=load("res://Assets/Chess_board.png")
+				curUP.texture=load("res://Assets/factory.png")
 			elif w_list[x] == 7:
-				curUP.texture=load("res://Assets/Chess_board.png")
+				curUP.texture=load("res://Assets/ship.png")
 			elif w_list[x] == 8: #ARTY
 				if currentTurn%12 == 0:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty10.png")
 				elif currentTurn%12 == 1:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty11.png")
 				elif currentTurn%12 == 2:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty12.png")
 				elif currentTurn%12 == 3:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty1.png")
 				elif currentTurn%12 == 4:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty2.png")
 				elif currentTurn%12 == 5:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty3.png")
 				elif currentTurn%12 == 6:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty4.png")
 				elif currentTurn%12 == 7:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty5.png")
 				elif currentTurn%12 == 8:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty6.png")
 				elif currentTurn%12 == 9:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty7.png")
 				elif currentTurn%12 == 10:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty8.png")
 				elif currentTurn%12 == 11:
-					curUP.texture=load("res://Assets/Chess_board.png")
-			else:
-				pass #display nothing/// will need to switch to a blank texture!!!
+					curUP.texture=load("res://Assets/arty9.png")
+		else:
+			curUP.texture=load("res://Assets/blankUpgrade.png") #display nothing/// will need to switch to a blank texture!!!
 	
 func b_display_upgrades() -> void:
 	
@@ -1014,60 +1014,60 @@ func b_display_upgrades() -> void:
 		if len(b_list) >= x+1:
 			if b_list[x] == 0: # REVOLVER
 				if currentTurn%6 == 0:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/rev6.png")
 				elif currentTurn%6 == 1:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/rev1.png")
 				elif currentTurn%6 == 2:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/rev2.png")
 				elif currentTurn%6 == 3:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/rev3.png")
 				elif currentTurn%6 == 4:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/rev4.png")
 				elif currentTurn%6 == 5:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/rev5.png")
 			elif b_list[x] == 1:
-				curUP.texture=load("res://Assets/Chess_board.png")
+				curUP.texture=load("res://Assets/guillotine.png")
 			elif b_list[x] == 2:
-				curUP.texture=load("res://Assets/Chess_board.png")
+				curUP.texture=load("res://Assets/crown.png")
 			elif b_list[x] == 3: #SWORD
 				if currentTurn%3 == 0:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/sword2.png")
 				elif currentTurn%3 == 1:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/sword3.png")
 				elif currentTurn%3 == 2:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/sword1.png")
 			elif b_list[x] == 4:
-				curUP.texture=load("res://Assets/Chess_board.png")
+				curUP.texture=load("res://Assets/tower.png")
 			elif b_list[x] == 5:
-				curUP.texture=load("res://Assets/Chess_board.png")
+				curUP.texture=load("res://Assets/shield.png")
 			elif b_list[x] == 6:
-				curUP.texture=load("res://Assets/Chess_board.png")
+				curUP.texture=load("res://Assets/factory.png")
 			elif b_list[x] == 7:
-				curUP.texture=load("res://Assets/Chess_board.png")
+				curUP.texture=load("res://Assets/ship.png")
 			elif b_list[x] == 8: #ARTY
 				if currentTurn%12 == 0:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty10.png")
 				elif currentTurn%12 == 1:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty11.png")
 				elif currentTurn%12 == 2:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty12.png")
 				elif currentTurn%12 == 3:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty1.png")
 				elif currentTurn%12 == 4:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty2.png")
 				elif currentTurn%12 == 5:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty3.png")
 				elif currentTurn%12 == 6:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty4.png")
 				elif currentTurn%12 == 7:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty5.png")
 				elif currentTurn%12 == 8:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty6.png")
 				elif currentTurn%12 == 9:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty7.png")
 				elif currentTurn%12 == 10:
-					curUP.texture=load("res://Assets/Chess_board.png")
+					curUP.texture=load("res://Assets/arty8.png")
 				elif currentTurn%12 == 11:
-					curUP.texture=load("res://Assets/Chess_board.png")
-			else:
-				pass #display nothing
+					curUP.texture=load("res://Assets/arty9.png")
+		else:
+			curUP.texture=load("res://Assets/blankUpgrade.png")
