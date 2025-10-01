@@ -10,9 +10,9 @@ Features:
 - Player UI for selecting name, uprades, & piece deployment
 
 Future Patches:
-- Specific win conditions
-- Online PvP
-- Balancing(?)
+- Online PvP (?)
+- Release on itch.io
 
-Version: 1.3
-- Upgrade Graphics & Info Page
+Version: 1.4
+- Added win screens, changed project name, fixed scaling
+
