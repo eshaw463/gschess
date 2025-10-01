@@ -174,9 +174,9 @@ func display_board():
 			if board[n][m] < 0: 
 				b_loss = false
 	if (w_loss):   #DISPLAY WIN SCREENS HERE
-		pass
+		OS.alert("Black Wins! Reopen game to reset","Black Wins")
 	if (b_loss):
-		pass
+		OS.alert("White Wins! Reopen game to reset","White Wins")
 
 
 #CHANGE TURN

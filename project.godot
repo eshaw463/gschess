@@ -10,14 +10,18 @@ config_version=5
 
 [application]
 
-config/name="Chess_tutorial"
+config/name="gschess"
 run/main_scene="res://Scenes/main.tscn"
-config/features=PackedStringArray("4.4", "Forward Plus")
+config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 flowerwall_crt="*res://addons/flowerwall_postprocess/scenes/flowerwall_pp.tscn"
+
+[display]
+
+window/stretch/mode="viewport"
 
 [editor_plugins]
 
